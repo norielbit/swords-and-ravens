@@ -80,6 +80,13 @@ class Game(models.Model):
     def __str__(self):
         return f"{self.name} ({self.id})"
 
+
+    @staticmethod
+    def can_create_game(user):
+        open_games = Game.objects.filter(owner=user, state=IN_LOBBY)
+
+        return len(open_games) == 0
+
     class Meta:
         permissions = [
             ("can_play_as_another_player", "Can impersonate an other player in a game")

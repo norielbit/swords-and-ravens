@@ -67,15 +67,18 @@ def games(request):
         # Create the list of "My games"
         my_games = [game for game in games if game.player_in_game]
 
+        can_create_game = Game.can_create_game(request.user) if request.user.is_authenticated else False
+
         public_room_id = Room.objects.get(name='public').id
 
         return render(request, "agotboardgame_main/games.html", {
             "games": games,
             "my_games": my_games,
-            'public_room_id': public_room_id
+            'public_room_id': public_room_id,
+            "can_create_game": can_create_game
         })
     elif request.method == "POST":
-        if not request.user.has_perm("agotboardgame_main.add_game"):
+        if not request.user.has_perm("agotboardgame_main.add_game") or not Game.can_create_game(request.user):
             return HttpResponseRedirect("/")
 
         name = request.POST.get("name", "")

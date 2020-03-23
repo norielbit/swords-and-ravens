@@ -40,7 +40,10 @@ Games -
                                     <label for="game-name-input">Game name</label>
                                     <input id="game-name-input" name="name" class="form-control" required />
                                 </div>
-                                <button type="submit" class="btn btn-block btn-primary">
+                                <button type="submit"
+                                        class="btn btn-block btn-primary"
+                                        {% if not can_create_game %}title="You can only have one In Lobby game at a time" disabled{% endif %}
+                                >
                                     Create game
                                 </button>
                             </form>
