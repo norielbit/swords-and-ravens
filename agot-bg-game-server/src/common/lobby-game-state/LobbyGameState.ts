@@ -97,8 +97,11 @@ export default class LobbyGameState extends GameState<EntireGame> {
             return {success: false, reason: "not-owner"};
         }
 
-        if (this.players.size < this.getAvailableHouses().length) {
-            return {success: false, reason: "not-enough-players"};
+        // If Vassals are toggled, not all houses need to be taken
+        if (!this.entireGame.gameSettings.vassals) {
+            if (this.players.size < this.getAvailableHouses().length) {
+                return {success: false, reason: "not-enough-players"};
+            }
         }
 
         return {success: true, reason: "ok"};

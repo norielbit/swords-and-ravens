@@ -221,6 +221,18 @@ export default class IngameGameState extends GameState<
         }
     }
 
+    getVassalHouses(): House[] {
+        return this.game.houses.values.filter(h => this.isVassalHouse(h));
+    }
+
+    getNonClaimedVassalHouses(): House[] {
+        return this.getVassalHouses().filter(h => h.suzerainHouse == null);
+    }
+
+    isVassalHouse(house: House): boolean {
+        return !this.players.values.map(p => p.house).includes(house);
+    }
+
     serializeToClient(user: User | null): SerializedIngameGameState {
         // If user == null, then the game state needs to be serialized
         // in an "admin" version (i.e. containing all data).
