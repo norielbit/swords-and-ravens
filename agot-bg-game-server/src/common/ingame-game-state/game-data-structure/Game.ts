@@ -283,8 +283,12 @@ export default class Game {
         return false;
     }
 
+    countPowerTokensOnBoard(house: House): number {
+        return this.world.regions.values.filter(r => r.controlPowerToken == house).length;
+    }
+
     getAllowedCoundOfStarredOrders(house: House): number {
-        const place = this.kingsCourtTrack.indexOf(house);
+        const place = (this).kingsCourtTrack.indexOf(house);
 
         if (this.starredOrderRestrictions.length <= place) {
             return 0;
